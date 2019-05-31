@@ -1,0 +1,317 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>Neural Field Simulator</title>
+    <meta name="description" content="Dynamic neural field simulator" />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="media.css">
+  <script src="source.js"></script>
+  
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+	<div id="container">
+    
+  
+		<div id="sidebar">
+	    	<h1  style="color: black; text-align: left;">Index</h1>
+	    	<ul id="index">
+		    	<li class="set"><h3><a href="../index.html">Home</a></h3>
+		    	<li class="set"><h3><a href="install.html">Installation</a></h3>
+		    	<li class="set"><h3><a href="simulate.html">Simulation</a></h3>
+		    		<ul>
+						<li class="set"><h3><a href="interface.html">Interface</a></h3>
+						<li class="set"><h3><font color="green"><b>Visualization</b></font></h3>
+					</ul>
+				</li>
+				<li class="set"><h3><a href="example.html">Example</a></h3></li>
+	    	</ul>
+	
+	    <hr />
+	    <ul id="index">
+	    <li class="set"><h3>Components</h3>
+		  <ul>
+			<li class="mono"><a href="#movement">Movement</a>
+		    <li class="mono"><a href="#colors">Colors</a>
+		    <li class="mono"><a href="#lines">Axes lines</a>
+		    <li class="mono"><a href="#range">Z axis range</a>
+		    <li class="mono"><a href="#saving">Saving</a></li>
+		  </ul>
+		</li>
+	    </ul>
+    
+  </div>
+
+    <article id="content">
+
+	<header id="section-intro">
+		<h1 class="title">Visualization
+		</h1>
+	</header>
+		
+		<p style="margin-bottom: 5%; margin-top: 4%;">Two dimensional neural fields are visualized by the simulator in three dimensions,
+		   whereby the value (for the potential, kernel or input) at each 2D location becomes the third dimension value, [x,y] ↦ [z]. 
+		   A dimension is added to the visualization to increase the description of the field. 
+		   The field is furthermore colored depending on its z axis location.
+		</p>
+		
+
+		<h3 id="movement"><b>Movement</b></h3>
+		   The visualization can be rotated with the mouse and the following actions 
+		   can easily be performed by pressing keyboard keys...
+
+	
+	<section id="section-items">
+
+		<table style="margin-bottom: 7%;" border="1" style="width:100%">
+        	<tr>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><b>e </b>key to<br><i>move up</i></span><td></tr>
+                	<tr><td><img src="img/3.png" alt="original" style="width:100%"></td></tr>
+            	</table>
+
+		        <td><table>
+		        	<tr><td><span class='notBold' style="text-align: center;"><b>d </b>key to<br><i>move down</i></span><td></tr>
+		    		<tr><td><img src="img/2.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>s </b>key to<br><i>move left</i></span><td></tr>
+					<tr><td><img src="img/7.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>f </b>key to<br><i>move right</i></span><td></tr>
+					<tr><td><img src="img/6.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+			</tr>
+			
+			<tr><td></td></tr>
+			
+			<tr>
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>up </b>arrow to<br><i>rotate up</i></span><td></tr>
+					<tr><td><img src="img/8.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>down </b>arrow to<br><i>rotate down</i></span><td></tr>
+					<tr><td><img src="img/9.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>left </b>arrow to<br><i>rotate left</i></span><td></tr>
+					<tr><td><img src="img/11.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>right </b>arrow to<br><i>rotate right</i></span><td></tr>
+					<tr><td><img src="img/10.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+			</tr>
+			
+			<tr><td></td></tr>
+			
+			<tr>
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>page down </b>key to<br><i>zoom out</i></span><td></tr>
+					<tr><td><img src="img/4.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+    			<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><b>page up </b>key to<br><i>zoom in</i></span><td></tr>
+					<tr><td><img src="img/5.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+			
+			    <td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><b>l</b> to move<br><i>colors down</i></span><td></tr>
+					<tr><td><img src="img/12.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+        			<tr><td><span class='notBold' style="text-align: center;"><b>k </b> to move<br><i>colors up</i></span><td></tr>
+					<tr><td><img src="img/13.png" alt="original" style="width:100%"></td></tr>
+				</table></td>
+			</tr>
+		</table>
+		
+
+
+
+		<h3 id="colors"><b>Colors</b></h3>
+		The visualization offers a selection of 8 colors.
+		<table style="margin-bottom: 2%;" border="1" style="width:100%">
+        	<tr>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>black</i></span><td></tr>
+                	<tr><td><img src="img/colors_black.png" alt="black" style="width:100%"></td></tr>
+            	</table></td>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>white</i></span><td></tr>
+                	<tr><td><img src="img/colors_white.png" alt="white" style="width:100%"></td></tr>
+            	</table></td>		
+		
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>violet</i></span><td></tr>
+                	<tr><td><img src="img/colors_violet.png" alt="violet" style="width:100%"></td></tr>
+            	</table></td>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>blue</i></span><td></tr>
+                	<tr><td><img src="img/colors_blue.png" alt="blue" style="width:100%"></td></tr>
+            	</table></td>			
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>cyan</i></span><td></tr>
+                	<tr><td><img src="img/colors_cyan.png" alt="cyan" style="width:100%"></td></tr>
+            	</table></td>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>green</i></span><td></tr>
+                	<tr><td><img src="img/colors_green.png" alt="green" style="width:100%"></td></tr>
+            	</table></td>		
+		
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>yellow</i></span><td></tr>
+                	<tr><td><img src="img/colors_yellow.png" alt="yellow" style="width:100%"></td></tr>
+            	</table></td>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><i>red</i></span><td></tr>
+                	<tr><td><img src="img/colors_red.png" alt="red" style="width:100%"></td></tr>
+            	</table></td>	
+			</tr>
+		</table>
+
+		The colors of different sections of the graph can be easily changed to those above by repeatedly pressing the keybord...
+		<table border="1" style="width:100%">
+        	<tr>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;"><b>b </b>key to change<br>the <i>background</i></span><td></tr>
+                	<tr><td><img src="img/change_background.png" alt="background" style="width:100%"></td></tr>
+            	</table></td>
+
+		        <td><table>
+		        	<tr><td><span class='notBold' style="text-align: center;"><b>q </b>key to change<br><i>high</i> values</span><td></tr>
+		    		<tr><td><img src="img/change_high.png" alt="high"style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>a </b>key to change<br><i>middle</i> values</span><td></tr>
+					<tr><td><img src="img/change_middle.png" alt="middle" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;"><b>z </b>key to change<br><i>low</i> values</span><td></tr>
+					<tr><td><img src="img/change_low.png" alt="low" style="width:100%"></td></tr>
+				</table></td>
+			</tr>
+		</table>
+		<p style="margin-bottom: 6%;">The simulator interpolates between the high, middle and low range colors. 
+		If you want the graph to interpoate between two colors (high and low), press the <b>2</b> key.
+		If you want the graph to interpolate between three colors (high and mid. mid and low), press 
+		the <b>3</b> or <b>a</b> key.</p>
+		
+		
+		
+		<h3 id="lines"><b>Axes lines</b></h3>
+		<p style="margin-bottom: 1%;">Axes lines are modulated by repeatedly pressing the <b><i>g</i></b> keybord key.</p>
+		<table border="1" style="width:100%">
+        	<tr>
+            	<td><table>
+            		<tr><td><span class='notBold' style="text-align: center;">no axis</span><td></tr>
+                	<tr><td><img src="img/grid_0.png" alt="no grid" style="width:100%"></td></tr>
+            	</table></td>
+
+		        <td><table>
+		        	<tr><td><span class='notBold' style="text-align: center;">5 lines</span><td></tr>
+		    		<tr><td><img src="img/grid_1.png" alt="5 lines" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;">9 lines</span><td></tr>
+					<tr><td><img src="img/grid_2.png" alt="9 lines" style="width:100%"></td></tr>
+				</table></td>
+
+				<td><table>
+					<tr><td><span class='notBold' style="text-align: center;">17 lines</span><td></tr>
+					<tr><td><img src="img/grid_3.png" alt="17 lines" style="width:100%"></td></tr>
+				</table></td>
+			</tr>
+		</table>
+		<p style="margin-bottom: 6%;">Axis text is currently only shown on Mac systems. 
+		It will hopefully be available for other systems soon.
+		There are 2 text sizes alternated by pressing the <b><i>t</i></b> key.</p>
+		
+
+
+
+		<h3 id="range"><b>Z axis range</b></h3>
+		<p style="margin-bottom: -2%;">The limits of the Z axis can be changed. To set a new Z axis...</p>
+		<dl style="margin-bottom: 3%;">
+			<dt>minimum range:</dt>
+		  		<dd>&#10141; type <b>n</b></dd>
+		  		<dd>&#10141; followed by the new minimum value</dd>
+		  		<dd>&#10141; and finally the <b>ENTER</b> key.</dd>
+		  		<dd style="margin-bottom: 1%;">&#10550; The minimum axis value can be returned to the minimum field value by pressing the <b>m</b> key.</dd>
+		  		
+			<dt>maximum range:</dt>
+		  		<dd>&#10141; type <b>y</b></dd>
+		  		<dd>&#10141; followed by the new maximum value</dd>
+		  		<dd>&#10141; and finally the <b>ENTER</b> key.</dd>
+		  		<dd>&#10550; The maximum axis value can be returned to the maximum field value by pressing the <b>u</b> key.</dd>
+		</dl>
+		<p style="margin-bottom: 6%;">The minimum and maximum axis values are returned simultaneously to the minimum and maximum field values with the <b>j</b> key.</p>
+
+
+
+
+
+		<h3 id="saving"><b>Saving</b></h3>
+		<p>The <a href="http://www.pythonware.com/products/pil/">Python Imaging Library</a> 
+		(PIL) must be installed for the simulator to save images and videos. 
+		Saving videos additionally requires an installation of the <a href="http://www.ffmpeg.org/">FFmpeg</a> library.
+		These can be installed from source or automatically from a package manager, such as MacPorts, Yum or AptGet.
+		Without the PIL library, you can take images of the simulation window with your operating system's native screenshot application.</p> 
+		
+		<dl style="margin-top: 1%; margin-bottom: -2%;">
+		  	<dt>&#8594; save an image (with the <a href="http://www.pythonware.com/products/pil/">PIL</a> library installed)</dt> 
+				<dd style="margin-bottom: 1%;">- by pressing <b>i</b> on your keyboard.</dd>
+		  		<dd><img src="img/20.png" alt="original" width="150"></dd>
+		  
+			<dt style="margin-top: 2%;">&#8594; save a video (with the <a href="http://www.pythonware.com/products/pil/">PIL</a> and 
+										<a href="http://www.ffmpeg.org/">FFmpeg</a> libraries installed)</dt>
+		  		<dd>- by pressing <b>v</b> on your keyboard to begin a video recording.</dd>
+		  		<dd>- Pressing <b>v</b> again stops the recording.</dd>
+		  		<dd>- After stopping a recording, wait a moment for FFmpeg to compile the video.</dd>
+		  		<dd>- Note: recording a video slows simulations while images are saved.</dd>
+		  		<dd> <img src="img/21.gif" alt="original" width="150"></dd>
+		</dl>
+		
+		<p style="margin-top: -2%;">The location of the saved image or video is output to the Terminal.</p>
+
+
+		<br>
+
+	
+</section>
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>

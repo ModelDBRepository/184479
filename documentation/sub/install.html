@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>Neural Field Simulator</title>
+    <meta name="description" content="Dynamic neural field simulator" />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="media.css">
+  <script src="source.js"></script>
+
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+  
+	<div id="sidebar">
+		<h1  style="color: black; text-align: left;">Index</h1>
+		<ul id="index">
+			<li class="set"><h3><a href="../index.html">Home</a></h3>
+			<li class="set"><h3><font color="green"><b>Installation</b></font></h3>
+			<li class="set"><h3><a href="simulate.html">Simulation</a></h3>
+	    		<ul>
+					<li class="set"><h3><a href="interface.html">Interface</a></h3>
+					<li class="set"><h3><a href="visualization.html">Visualization</a></h3>
+				</ul>
+			</li>
+			<li class="set"><h3><a href="example.html">Example</a></h3>
+		</ul>
+ 	</div>
+
+    <article id="content">
+
+	<header id="section-intro">
+		<h1 class="title">Installation</h1>
+	</header>
+	
+
+	<h3><b>Pre-install</b></h3>
+	
+	<p style="margin-bottom: -1%;">
+		The simulator has four dependencies that can be installed with a package manager such as MacPorts, DNF, AptGet, etc... 
+		Downloads are also available for free from each of the dependencies’ web site if a package manager is not used.
+		Following are the dependencies that must be installed prior to the simulator's use:<p>
+	<ol>
+		<li style="margin-bottom: 2%;"><a href="https://www.python.org">Python</a><br> 
+			The simulator was written and debugged using Python versions 2.7...<br>
+			It is therefore strongly suggested you use a 2.7... release.<br>
+			The simulator might not work with Python versions &#8805; 3.0.<br>
+		</li>
+		
+		<li style="margin-bottom: 2%;"><a href="http://www.numpy.org">NumPy</a><br>
+			The simulator performs most numerical calculations with the NumPy library for reasons expressed 
+			<a href="http://docs.scipy.org/doc/numpy/user/whatisnumpy.html">here</a>.<br>
+		</li>
+		
+		
+		<li style="margin-bottom: 2%;"><a href="http://pyopengl.sourceforge.net">PyOpenGL</a><br>
+			This is a Python language binding to OpenGL which is used for hardware-accelerated graphical rendering of the simulated neural fields.
+		</li>
+		
+		<li><a href="http://www.glfw.org">GLFW</a><br>
+			The simulation window, with an OpenGL context, is created and managed by GLFW. 
+			This installation is easy on many systems.
+			On recent Fedora distributions, for example, in a Terminal typing 
+			<pre style="background-color:#000000"><code style="color: lime; background-color:#000000">sudo dnf install glfw glfw-devel</code></pre>
+			is all that needs to be done. 
+			However, there are a couple <i>gotchas</i> in some other systems...
+
+		<ul style="margin-top: 1%;">
+			<li>If a package manager is used for GLFW installation,
+				<ul style="margin-top: 0%;">
+				<li>GLFW version &#8805; 3.0 is required. Some distros do not have this, necessitating a source install.
+				<li>the GLFW development package (i.e. <i>glfw-devel</i> or similar) also needs to be installed if it is not included in the main glfw package.</li>
+				</ul>
+			
+			<li  style="margin-top: -1%;">GLFW_LIBRARY environment variable must be created. 
+			It can be set, for example, in a...
+			<dl  style="margin-top: 0%;">
+				<dt>&#8680; Ubuntu OS after an install from source code, enter in a terminal:</dt>
+				<dd style="margin-bottom: 1%;">
+					<pre style="background-color:#000000"><code style="color: lime; background-color:#000000">set GLFW_LIBRARY=/usr/local/bin/libglfw3.so</code></pre>
+				</dd>
+				<dt>&#8680; Mac Mavericks OS after a MacPorts install, enter in a terminal:</dt>
+				<dd>
+					<pre style="background-color:#000000"><code style="color: lime; background-color:#000000">sudo open -t /etc/launchd.conf</code></pre>
+				</dd>
+				<dd>then enter and save: <code>setenv GLFW_LIBRARY /opt/local/lib/libglfw.dylib</code></dd>
+				<dt>&#8680; Fedora 22 OS after a dnf install, add to your ~/.bashrc:</dt>
+				<dd style="margin-bottom: 1%;">
+					<pre style="background-color:#000000"><code style="color: lime; background-color:#000000">export GLFW_LIBRARY=/usr/lib64/libglfw.so</code></pre>
+				</dd>	
+			</dl>
+			
+		</ul>
+		</li>
+		</ol>
+		
+	<h3><b>Installation</b></h3>
+
+	<p>
+		The simulator (package DNF_GUI) can be downloaded from 
+		<a href="https://gforge.inria.fr/projects/nfsimulator/">https://gforge.inria.fr/projects/nfsimulator/</a>.</p>
+		
+	<p>
+		Extract the download into any directory with full permissions. 
+		Reading and writing permissions are needed to load and save field and graphic properties and
+		execution permission is required to run the simulator. 
+	</p>
+
+	<p>
+		When this is complete, proceed to <a href="simulate.html">the next page for simulation instructions</a>.
+
+
+
+    </article>
+    
+    
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>

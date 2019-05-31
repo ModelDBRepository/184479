@@ -1,0 +1,308 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+<title>Neural Field Simulator</title>
+<meta name="description" content="Dynamic neural field simulator" />
+
+<link
+	href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300'
+	rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="media.css">
+<script src="source.js"></script>
+
+</head>
+<body>
+	<a href="#" id="top">Top</a>
+
+	<div id="container">
+
+
+		<div id="sidebar">
+			<h1  style="color: black; text-align: left;">Index</h1>
+			<ul id="index">
+				<li class="set"><h3>
+						<a href="../index.html">Home</a>
+					</h3>
+				<li class="set"><h3>
+						<a href="install.html">Installation</a>
+					</h3>
+				<li class="set"><h3>
+						<a href="simulate.html">Simulation</a>
+					</h3>
+					<ul>
+						<li class="set"><h3>
+								<a href="interface.html">Interface</a>
+							</h3>
+						<li class="set"><h3>
+								<a href="visualization.html">Visualization</a>
+							</h3>
+					</ul></li>
+				<li class="set"><h3>
+						<font color="green"><b>Example</b></font></h3>
+			</ul>
+			
+			<hr />
+	    <ul id="index">
+	    <li class="set"><h3>Components</h3>
+		  <ul>
+			<li class="mono"><a href="#I">Input</a>
+		    <li class="mono"><a href="#K">Kernel</a>
+		    <li class="mono"><a href="#V">Voltage</a>
+		    <li class="mono"><a href="#As">Propagation</a>
+		    <li class="mono"><a href="#fin">Finite speed</a>
+		  </ul>
+		</li>
+	    </ul>
+	    
+	    
+		</div>
+
+		<article id="content">
+
+			<header id="section-intro">
+				<h1 class="title">Example</h1>
+			</header>
+
+	
+			<p style="margin-top: 4%;">An example walk-through is provided here to accustom you to the simulator.
+				There are two windows to have opened for most simulations; a Terminal and a text editor or IDE.</p>
+				<ol style="margin-top: -2%;">
+					<li>Open a Terminal and change the directory to the location of the simulator's 
+						<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;" ><i>mainDNF.py</i></span> file. 
+					<li>Open the <span style="font-family: 'Courier New', Courier, monospace; padding: 3px;" ><i>values.py</i></span> file 
+						in the same directory with a text editor or an IDE; preferably one that understands Python syntax because the interface is coded in Python. 
+				</ol>
+
+			<h3 id="I">
+				<b>Input</b>
+			</h3>
+			<p>
+				The input into the neural field from external sources, <code>I</code>, is on lines 80-83 of the 
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span> file. 
+				A baseline value of 2.0 is applied across the field and a 2D Gaussian curve is added before the initialization of <code>I</code> is complete. 
+				On line 29 of the <span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span> file, 
+				change the simulator view to visualize <code>I</code> by making the <code>showData</code> value equal to 3:
+			</p>
+			<pre style="margin-top: -2%;"><code>showData = <font style="color: red">3</font></code></pre>
+
+
+			<p style="margin-top: 3%;">Save the file and afterwards run the
+				simulator by entering into the Terminal:</p>
+			<pre style="background-color: #000000; margin-top: -2%;"><code style="color: lime; background-color: #000000">python mainDNF.py</code></pre>
+
+			<p id="Ifig" style="margin-top: 3%; margin-bottom: -2%;">
+				A window similar to the image below will appear. 
+				The window title shows the minimum and maximum values for <code>I</code>. 
+				Most of the field has an input value of 2 and at the center is a sharp Gaussian curve raising the input to almost 10. 
+				The view of <code>I</code> can be changed in ways expressed on the 
+				<a href="sub/visualization.html">Visualization</a> page.
+			</p>
+			<img src="img/I.png" alt="I">
+			<p style="margin-top: -5%; margin-bottom: 8%;">Press the <code>Esc</code> key on your keyboard to close the simulation window and exit the simulator.</p>
+
+
+
+			<h3 id="K">
+				<b>Kernel</b>
+			</h3>
+			<p>
+				The synaptic connectivity Kernel, <code>K</code>, is on lines 90-97 of the 
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span> file. 
+				These lines create a <code>K</code> that has spatial hexagonal connections.
+				<code>K</code> can be viewed in the simulator by changing the <code>showData</code> value to 4 on line 29 of the 
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span>
+				file so that it reads:
+			</p>
+			<pre style="margin-top: -2%;"><code>showData = <font style="color: red">4</font></code></pre>
+
+			<p style="margin-top: 3%;">Save the file and then run the simulator again by entering into the Terminal:</p>
+			<pre style="background-color: #000000; margin-top: -2%;"><code style="color: lime; background-color: #000000">python mainDNF.py</code></pre>
+
+			<p id="Kfig" style="margin-top: 3%; margin-bottom: -2%;">
+				The simulator window (displayed below) shows the <code>K</code> field values and 
+				the minimum and maximum values are written at the top.
+				
+				
+				
+				<code>K</code> obeys periodic boundary conditions whereby <code>K</code> would appear continuous if copied and placed to every side of itself. 
+				This can be seen by revolving the graph with a mouse.
+				
+				Implementing other types of movement and different changes to the appearance of the graphed 
+				<code>K</code> are shown on the <a href="sub/visualization.html">Visualization</a> page.
+				
+			</p>
+			<img src="img/K.png" alt="K">
+			<p style="margin-top: -5%; margin-bottom: 8%;">Press the <code>Esc</code> key on your keyboard to close the simulation window and exit the simulator.</p>
+
+
+
+			<h3 id="V">
+				<b>Voltage</b>
+			</h3>
+			<p>
+				The mean field voltage at the beginning of the simulation, <code>V0</code>, is initialized on line 60 of the 
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span> file, 
+				where it is set to 2.0 homogeneously across the field.
+				It can be changed to, for example, apply waves or noise to <code>V0</code>. 
+				However, it will be kept as-is for the purpose of this example.
+			</p>
+
+			<p>
+				The simulator displays <code>V</code> over time when the <code>showData</code> value is set to 1 on line 29 of the 
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span>
+				file so that it reads:
+			</p>
+			<pre style="margin-top: -2%;"><code>showData = <font style="color: red">1</font></code></pre>
+
+			<p style="margin-top: 3%;">Save the file and then run the simulator again by entering into the Terminal:</p>
+			<pre style="background-color: #000000; margin-top: -2%;"><code style="color: lime; background-color: #000000">python mainDNF.py</code></pre>
+
+			<p style="margin-top: 3%; margin-bottom: 0%;">
+				Press the <code>p</code> button on your keyboard to begin the simulation in the window that appears.
+				The evolving <code>V</code> matrix is shown in the simulation of the equation
+			</p>
+			<div style="text-align: center"><img style="border: none;" src="img/V.png" width="90%" height="90%" alt="equation">.</div>
+
+			<p style="margin-top: 3%; margin-bottom: -2%;">
+				The figure below shows a similar shape as <code>I</code> <a href="#Ifig">above</a>. 
+				This is because the <code>K</code> kernel matrix, also shown <a href="#Kfig">above</a>, 
+				consists of small fractions slightly above and below 0, moving the convolution of the integral close to 0. 
+				<code>I</code>, with a maximum value near 10 at its center, is added to <code>V</code>'s evolving shape.
+			</p>
+			<img src="img/Vsim1.png" alt="V1">
+			<p style="margin-top: -5%; margin-bottom: 8%;">Press the <code>Esc</code> key on your keyboard to close the simulation window and exit the simulator.</p>
+
+
+
+			<h3 id="As">
+				<b>Propagation</b>
+			</h3>
+			<p>
+				<code>V</code> did not appear to spread from the large activity at the center of the 
+				field in the figure above because <code>K</code> is very small. 
+				Maximizing graph values around the flat surface of the graph will allow the activity spread to be seen.
+				To do this, run the simulator again by entering into the Terminal:</p>
+			<pre style="background-color: #000000; margin-top: -2%;"><code style="color: lime; background-color: #000000">python mainDNF.py</code></pre> 
+			<p>
+				Next, type: <code>y</code><br>
+				Then type and enter: <code>2.00007</code><br>
+				As shown on the <a href="sub/visualization.html">Visualization</a> page, typing a number (2.00007 in this case),
+				preceded by <code>y</code> limits the maximum axis range to that number. 
+				Type: <code>p</code> to begin the simulation, which will proceed similar to the figure below.
+			</p>
+			<table border="1" style="width:100%">
+				<tr>
+					<td><table>
+						<tr><td><img src="img/finite1.png" alt="finite1"  style="width:100%"></td></tr>
+						<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">0.25 second</span><td></tr>
+					</table></td>
+	
+	    			<td><table>
+						<tr><td><img src="img/finite2.png" alt="finite2"  style="width:100%"></td></tr>
+	            		<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">0.5 second</span><td></tr>
+					</table></td>
+				
+				    <td><table>
+						<tr><td><img src="img/finite3.png" alt="finite3"  style="width:100%"></td></tr>
+						<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">0.75 second</span><td></tr>
+					</table></td>
+	
+					<td>
+						<table>
+						<tr><td><img src="img/finite4.png" alt="finite4"  style="width:100%"></td></tr>
+	        			<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">1.0 second</span></td></tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<p style="margin-bottom: 8%;">
+				The field activity can be seen spreading at a very fast speed. 
+				This is because the <code>c</code> value is large on line 43 of 
+				the 
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 0px;"><i>values.py</i></span>&nbsp; file. 
+				When <code>c&#8805;l/&radic;<span style="text-decoration:overline;">2</span>&Delta;t</code>, the axon transmission speed is infinite and there is no transmission delay.
+				Press the <code>Esc</code> key on your keyboard to close the simulation window and exit the simulator.
+			</p>
+
+
+
+
+			<h3 id="fin">
+				<b>Finite speed</b>
+			</h3>
+			<p>
+				Finite axonal transmission speed can be implemented on line 43 of the
+				<span style="font-family: 'Courier New', Courier, monospace; padding: 3px;"><i>values.py</i></span> file by making   
+				<code>c&lt;l/&radic;<span style="text-decoration:overline;">2</span>&Delta;t</code>.
+				Change <code>c</code> to 10 in the interface so that it reads:
+			</p>
+			<pre style="margin-top: -2%;"><code>c = <font style="color: red">10 </font><font style="color: gray"># mm/s</font></code></pre>
+				
+			<p style="margin-top: 3%;">Save the file and run the simulator again by entering into the Terminal:</p>
+			<pre style="background-color: #000000; margin-top: -2%;"><code style="color: lime; background-color: #000000">python mainDNF.py</code></pre>
+
+			<p>
+				The figure below shows the simulation with delayed activity spread over time. 
+				The effects of decelerated propagation speed are observed in the reduced field potential and 
+				also in the slower spread of activity when comparing the figures above and below. 
+			</p>
+			<table border="1" style="width:100%">
+				<tr>
+					<td><table>
+						<tr><td><img src="img/infinite1.png" alt="infinite1"  style="width:100%"></td></tr>
+						<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">0.25 second</span><td></tr>
+					</table></td>
+	
+	    			<td><table>
+						<tr><td><img src="img/infinite2.png" alt="infinite2"  style="width:100%"></td></tr>
+	            		<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">0.5 second</span><td></tr>
+					</table></td>
+				
+				    <td><table>
+						<tr><td><img src="img/infinite3.png" alt="infinite3"  style="width:100%"></td></tr>
+						<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">0.75 second</span><td></tr>
+					</table></td>
+	
+					<td>
+						<table>
+						<tr><td><img src="img/infinite4.png" alt="infinite4"  style="width:100%"></td></tr>
+	        			<tr><td><span class='notBold' style="text-align: center; margin-top: -8%;">1.0 second</span></td></tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+
+
+
+		<br>
+		<br>
+
+
+
+
+		</article>
+		<div class="clear"></div>
+		<footer id="footer">
+			<p>
+				Documentation generated by <a
+					href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+			</p>
+
+			<p>
+				pdoc is in the public domain with the <a href="http://unlicense.org">UNLICENSE</a>
+			</p>
+
+			<p>
+				Design by <a href="http://nadh.in">Kailash Nadh</a>
+			</p>
+		</footer>
+	</div>
+</body>
+</html>

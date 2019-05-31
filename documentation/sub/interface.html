@@ -1,0 +1,510 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>Neural Field Simulator</title>
+    <meta name="description" content="Dynamic neural field simulator" />
+
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+	
+	<link rel="stylesheet" href="base.css">
+	<link rel="stylesheet" href="fonts.css">
+	<link rel="stylesheet" href="media.css">
+	<script src="source.js"></script>
+	<style type="text/css">
+	 	.mathe { 
+		font-family: Bookman Old Style, serif, Cambria, Georgia, Palatino Linotype; 
+		font-style: italic;
+	}
+	</style>
+  
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+	<div id="sidebar">
+		<h1  style="color: black; text-align: left;">Index</h1>
+    
+		<ul id="index">
+		    <li class="set"><h3><a href="../index.html">Home</a></h3>
+		    <li class="set"><h3><a href="install.html">Installation</a></h3>
+		    <li class="set"><h3><a href="simulate.html">Simulation</a></h3>
+			    <ul>
+					<li class="set"><h3><font color="green"><b>Interface</b></font></h3>
+					<li class="set"><h3><a href="visualization.html">Visualization</a></h3>
+				</ul>
+			</li>
+			<li class="set"><h3><a href="example.html">Example</a></h3>
+    
+    <hr>
+    
+    <li class="set"><h3><a href="#header-variables">Module variables</a></h3>
+      
+  <ul>
+	<li class="mono"><a href="#values2.c">c</a></li>
+    <li class="mono"><a href="#values.dt">dt</a></li>
+    <li class="mono"><a href="#values.endTime">endTime</a></li>
+    <li class="mono"><a href="#values.eta">eta</a></li>
+    <li class="mono"><a href="#values.gamma">gamma</a></li>
+    <li class="mono"><a href="#values.I">I</a></li>
+    <li class="mono"><a href="#values.K">K</a></li>
+    <li class="mono"><a href="#values.l">l</a></li>
+    <li class="mono"><a href="#values.n">n</a></li>
+    <li class="mono"><a href="#values.noiseVcont">noiseVcont</a></li>
+    <li class="mono"><a href="#values.showData">showData</a></li>
+    <li class="mono"><a href="#values.Uexcite">Uexcite</a></li>
+    <li class="mono"><a href="#values.V0">V0</a></li>
+    <li class="mono"><a href="#values.x">x</a></li>
+  </ul>
+
+    </li>
+
+    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#values2.updateI">updateI</a></li>
+    <li class="mono"><a href="#values2.updateK">updateK</a></li>
+    <li class="mono"><a href="#values2.updateS">updateS</a></li>
+  </ul>
+
+    </li>
+
+
+    </ul>
+  </div>
+
+    <article id="content">
+
+
+  <header id="section-intro">
+  	<h1 class="title">Interface
+	</h1>
+	</header>
+  
+	<p style="margin-top: 4%;">The interface is a Python module named <b>values.py</b> located in the uppermost directory of the simulator code. 
+  		It can be opened and its values can be changed for novel neural field simulations with any editor or integrated development environment.</p>
+  	<p style="margin-bottom: -2%;">The interface is text-based instead of graphical for four reasons.</p>
+	<ol>
+		<li>Cross-platform issues are non-existent with text.</li>
+		<li>A GUI has overhead, particularly with event listeners, that slows simulations.</li>
+		<li>Novel equations (kernels, firing rate functions, external inputs etc...) are easily integrated into simulations with Python coded text.</li>
+		<li>People have different tastes. 
+			The editor that one most likes and is most comfortable with can be used with the interface;
+			this is not so with a GUI.</li>
+	</ol>
+
+
+  
+  <p>The interface assigns values to dynamic neural field simulations of the type:</p>
+  <div style="text-align: center"><img style="border: none;" src="img/V.png" width="90%" height="90%" alt="equation"></div>
+where...<br>
+	<span class="mathe">&#951; </span> is a second order derivative factor,<br>
+	
+	<span class="mathe">&#947; </span> is a first order derivative factor,<br>
+	
+	<span class="mathe">V(x, t)</span> is the mean potential of a neural population at position 
+	<span class="mathe">x</span> and time <span class="mathe">t</span>,<br>
+	
+	<span class="mathe">I(x, t)</span> is the input from an external source at position 
+	<span class="mathe">x</span> and time <span class="mathe">t</span>,<br>
+	
+	<span class="mathe">&#937; </span> is the domain of integration of size 
+	<font face="courier"><span class="ident">l</span></font><sup>2</sup>,<br>
+	
+	<span class="mathe">K(x) </span> is the synaptic connectivity kernel at spatial location <span class="mathe">x</span>,<br>
+	<span class="mathe">S(x) </span> is the mean firing rate at position <span class="mathe">x</span> and<br>
+	<span class="mathe">c </span> is the velocity (mm/s) of an action potential.<br>
+
+
+
+
+
+
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-values', this);">Show source &equiv;</a></p>
+  <div id="source-values" class="source">
+    <pre><code><span style="color:darkgray">#!/usr/bin/env python
+# -*- coding: utf-8 -*-</span>
+
+<span style="color:green">'''Which data to show in the graph.
+1 = show V, potential matrix updates
+2 = show V0, potential matrix at time=0 (does not update V)
+3 = show I, input matrix
+4 = show K, kernel matrix '''</span>
+showData = <code><span style="color: #900;">1</span></code>
+
+<span style="color:green">'''Temporal values.'''</span> 
+endTime = <code><span style="color: #900;">-1</span></code> <span style="color:darkgray"># sim duration (a float in secs or -1:infinity)</span>
+dt = <code><span style="color: #900;">0.004</span></code>   <span style="color:darkgray"># temporal discretization (delta t in seconds)</span>
+
+<span style="color:green">'''Derivative factors.'''</span>
+gamma = <code><span style="color: #900;">1.0</span></code>  <span style="color:darkgray">#   first order</span>
+eta   = <code><span style="color: #900;">0.35</span></code> <span style="color:darkgray">#   second order</span>
+
+<span style="color:green">'''Axonal transmission speed value.'''</span>
+c = <code><span style="color: #900;">20000</span></code> <span style="color:darkgray"># mm/s</span>
+
+<span style="color:green">'''Field space values - applies to length and also width of square field.'''</span>
+l = <code><span style="color: #900;">10.0</span></code> <span style="color:darkgray"># field size</span> 
+n = <code><span style="color: #900;">256</span></code>  <span style="color:darkgray"># number of field discretized units</span>
+
+<span style="color:darkgray"># This sets up the square field, x. Do not change the next 4 lines!!!! **********</span>
+<code><span style="color:blue;">import</span></code> numpy <code><span style="color:blue;">as</span></code> np
+a,b= np.meshgrid(np.arange(-l/<code><span style="color: #900;">2.0</span></code>,l/<code><span style="color: #900;">2.0</span></code>,l/float(n)),np.arange(-l/<code><span style="color: #900;">2.0</span></code>,l/<code><span style="color: #900;">2.0</span></code>,l/float(n)))
+x  = np.sqrt(a**<code><span style="color: #900;">2</span></code>+b**<code><span style="color: #900;">2</span></code>)
+<span style="color:darkgray"># Do not change the previous 4 lines! *******************************************</span>
+
+<span style="color:green">'''This is the field voltage at time=0, V0. 
+You can delete/add/change variables but you must initialize a V0 = numpy array size n*n.'''</span>
+V0 = np.ones( (n,n) ) * <code><span style="color: #900;">2.0</span></code>  <span style="color:darkgray"># our V at t=0 that will be used in the simulation</span>
+
+<span style="color:green">'''Noise applied to the voltage at t>=0, noiseVcont. 
+This variable is multiplied by a matrix of random numbers reset every epoc.
+The noiseVcont variable can be None (for no continuous noise) or a numpy array of size n*n.'''</span> 
+noiseVcont = <code><span style="color:blue;">None</span></code>
+
+<span style="color:green">'''This is data for the second order calculation, Uexcite. 
+You can delete/add/change variables but if eta is not 0.0, 
+you must initialize a Uexcite that is a numpy array of size n*n.
+If eta (above) == 0.0, then Uexcite can be None, but this is not neccesary.'''</span>
+Uexcite = np.zeros((n,n)) <span style="color:darkgray"># set Uexcite to zero</span>
+
+<span style="color:green">'''This is the input from external source, I. 
+You can delete/add/change variables but you must initialize an I that uses x.'''</span>
+I = <code><span style="color: #900;">2.0</span></code> + np.exp(-x**<code><span style="color: #900;">2</span></code>/<code><span style="color: #900;">0.25</span></code>) / (<code><span style="color: #900;">0.25</span></code>*np.pi)
+
+<span style="color:green">'''This is the synaptic connectivity kernel, K. 
+You can delete/add/change variables but you must initialize a K that uses x.'''</span>
+phi_0 = <code><span style="color: #900;">0</span></code>*np.pi/<code><span style="color: #900;">3.0</span></code>
+phi_1 = <code><span style="color: #900;">1</span></code>*np.pi/<code><span style="color: #900;">3.0</span></code>
+phi_2 = <code><span style="color: #900;">2</span></code>*np.pi/<code><span style="color: #900;">3.0</span></code>
+k_c   = <code><span style="color: #900;">10</span></code>*np.pi/l
+dx    = l/float(n)
+K = <code><span style="color: #900;">0.1</span></code>*(np.cos(k_c*(a*np.cos(phi_0)+b*np.sin(phi_0))) + \
+         np.cos(k_c*(a*np.cos(phi_1)+b*np.sin(phi_1))) + \
+         np.cos(k_c*(a*np.cos(phi_2)+b*np.sin(phi_2))))* \
+         np.exp(<code><span style="color: #900;">-1</span></code> * x / <code><span style="color: #900;">10.0</span></code>) *dx *dx 
+
+<span style="color:green">'''This is the firing rate, S. 
+You can delete/add/change variables but you must keep the function name updateS and return the firing rate.'''</span>
+<code><span style="color:blue;">def</span> updateS</code>(V): <span style="color:darkgray"># V is the passed in field voltage</span>
+    S0    = <code><span style="color: #900;">2.0</span></code> <span style="color:darkgray"># maximum frequency</span>
+    theta = <code><span style="color: #900;">3.0</span></code> <span style="color:darkgray"># firing threshold</span>
+    alpha = <code><span style="color: #900;">5.5</span></code> <span style="color:darkgray"># steepness at the threshold</span>
+    <code><span style="color:blue;">return</span></code> S0 / (<code><span style="color: #900;">1.0</span></code> + np.exp(<code><span style="color: #900;">-1</span></code>*alpha*(V-theta)))
+
+<span style="color:green">'''Within this function you can update the external source, I, during the simulation. 
+You can delete/add/change variables but you must: 
+1. keep the function form: def updateI... 
+   The parameter 'time' is the current simulation time in seconds which can be used for time-dependent shifts in I.
+2. return your I value
+'''</span>
+<span style="color:darkgray">#def updateI(time): 					
+#    if time == 0.5: # Change I at a half second
+#        I = 2.0 + np.exp(-x**2/0.25) / (0.25*np.pi)
+#    return  I</span>
+
+<span style="color:green">'''Within this function you can update the kernel, K, during the simulation. 
+You can delete/add/change variables but you must: 
+1. keep the function form: def updateK ... 
+   The parameter 'time' is the current simulation time in seconds which can be used for time-dependent shifts in K.
+2. 'return K' with no more text on the line at the end of the function.
+'''</span>
+<span style="color:darkgray">#def updateK(time):
+#    K += np.sin(time) / 10.0 # Add a sinusoid over time
+#    return K</span>
+
+</code></pre>
+  </div>
+
+  <section id="section-items">
+    <h2 class="section-title" id="header-variables">Interface variables</h2>
+
+		<div class="item">
+			<p id="values2.c" class="name">
+				var <span class="ident">c</span>
+			</p>
+			<div class="desc">
+				<p>Axonal transmission speed in millimeters per second.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.dt" class="name">
+				var <span class="ident">dt</span>
+			</p>
+			<div class="desc">
+				<p>Temporal discretization in seconds.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.endTime" class="name">
+				var <span class="ident">endTime</span>
+			</p>
+			<div class="desc">
+				<p>The simulation duration. This can be a float in seconds or
+					-1 for infinity.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.eta" class="name">
+				var <span class="ident">eta</span>
+			</p>
+			<div class="desc">
+				<p>The second order derivative factor, <span class="mathe">&#951;</span>.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.gamma" class="name">
+				var <span class="ident">gamma</span>
+			</p>
+			<div class="desc">
+				<p>The first order derivative factor, <span class="mathe">&#947;</span>.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.I" class="name">
+				var <span class="ident">I</span>
+			</p>
+			<div class="desc">
+				<p>
+					The field voltage input from external sources.
+					If <code><span style="color: #900;">I</span></code> is a single number, the value is applied homogeneously into every spatial location. 
+					Otherwise, use <code><span style="color: #900;">x</span></code> to input spatially heterogeneous values into the field, as shown in the example.
+				</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.K" class="name">
+				var <span class="ident">K</span>
+			</p>
+			<div class="desc">
+				<p>The synaptic connectivity kernel. 
+				Note that periodic boundary conditions are required for the integral which is solved by a Fourier series with discrete wave vectors. 
+				The <code><span style="color: #900;">K</span></code> matrix should therefore appear continuous when placed above and to the side of itself.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.l" class="name">
+				var <span class="ident">l</span>
+			</p>
+			<div class="desc">
+				<p>The size of the field (mm) applicable to the length and the width.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+		<div class="item">
+
+			<p id="values.n" class="name">
+				var <span class="ident">n</span>
+			</p>
+			<div class="desc">
+				<p>
+					The number of field discretized units applicable to the length
+					and also the width of the square field.<br> This number
+					should be a power of 2, such as 2<sup>8</sup> to perform fast Fourier transforms.
+				</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.noiseVcont" class="name">
+				var <span class="ident">noiseVcont</span>
+			</p>
+			<div class="desc">
+				<p>
+					Noise applied to the voltage every iteration of the simulation. <br>
+					This variable is multiplied by a matrix of random numbers reset
+					every epoc. <br> This variable can be None (for no
+					continuous noise) or a numpy array of size <code><span style="color: #900;">n</span></code><sup>2</sup>.
+				</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.showData" class="name">
+				var <span class="ident">showData</span>
+			</p>
+			<div class="desc">
+				<p>
+					Which data to show in the graph. <br> 
+					1 = show <code><span style="color: #900;">V</span></code>, field potential updates<br> 
+					2 = show <code><span style="color: #900;">V0</span></code>, field potential at time=0 (does not update V)<br> 
+					3 = show <code><span style="color: #900;">I</span></code>, input matrix<br> 
+					4 = show <code><span style="color: #900;">K</span></code>, kernel matrix
+				</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.Uexcite" class="name">
+				var <span class="ident">Uexcite</span>
+			</p>
+			<div class="desc">
+				<p>A placeholder for the second order calculation that is used if <code><span style="color: #900;">eta</span></code> is not 0.
+				</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.V0" class="name">
+				var <span class="ident">V0</span>
+			</p>
+			<div class="desc">
+				<p>The field voltage at the beginning of the simulation. 
+				This can be a number, which the simulator applies homogeneously across the field, or a matrix of size 
+				<code><span style="color: #900;">n</span></code><sup>2</sup>.</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+		<div class="item">
+			<p id="values.x" class="name">
+				var <span class="ident">x</span>
+			</p>
+			<div class="desc">
+				<p>This is the 2 dimensional field and should only be modified indirectly by changing other parameters, such as 
+					<code><span style="color: #900;">l</span></code> and
+					<code><span style="color: #900;">n</span></code>.
+				</p>
+			</div>
+			<div class="source_cont"></div>
+		</div>
+
+
+
+		<h2 class="section-title" id="header-functions">Functions</h2>
+
+		<div class="item">
+			<div class="name def" id="values2.updateI">
+				<p>
+					def <span class="ident">updateI</span>(
+				</p>
+				<p>time)</p>
+			</div>
+			<div class="desc">
+				<p>This is an optional function to be used only if the input from an external source is changed during the simulation.
+				The <code>time</code> parameter is in seconds and can be used to change <code><span style="color: #900;">I</span></code> at a given time.
+				You can modify the contents of this function. 
+				However, you must keep the function declaration (<code>def <span style="color: #900;">updateI</span>(time):</code> ... 
+				and return an <code><span style="color: #900;">I</span></code> value).</p>
+			</div>
+			<div class="source_cont">
+				<p class="source_link">
+					<a href="javascript:void(0);"
+						onclick="toggle('source-values2.updateI', this);">Show
+								source &equiv;</a>
+						</p>
+						<div id="source-values2.updateI" class="source">
+							<pre><code><span style="color:blue;">def</span> <b>updateI</b>(time): 
+    if time == <span style="color: #900;">0.5</span>: <span style="color:darkgray"># Change I at a half second</span>
+        I = <span style="color: #900;">2.0</span> + np.exp(-x**<span style="color: #900;">2</span>/<span style="color: #900;">0.25</span>) / (<span style="color: #900;">0.25</span>*np.pi)
+    <span style="color:blue;">return</span> I</code></pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="item">
+					<div class="name def" id="values2.updateK">
+						<p>
+							def <span class="ident">updateK</span>(
+						</p>
+						<p>time)</p>
+					</div>
+					<div class="desc">
+				<p>This is an optional function to be used only if the synaptic connectivity kernel is changed during the simulation.
+				The <code>time</code> parameter is in seconds and can be used to change <code><span style="color: #900;">K</span></code> at a given time. 
+				Note: if you implement this function, <code><span style="color: #900;">K</span></code> must has a periodic boundary condition 
+				(see <code><span style="color: #900;">K</span></code> above).
+				You can modify the contents of this function. 
+				However, you must keep the function declaration (<code>def <span style="color: #900;">updateK</span>(time):</code> ... and return a <code><span style="color: #900;">K</span></code> value).</p>
+					</div>
+					<div class="source_cont">
+						<p class="source_link">
+							<a href="javascript:void(0);"
+								onclick="toggle('source-values2.updateK', this);">Show
+								source &equiv;</a>
+						</p>
+						<div id="source-values2.updateK" class="source">
+							<pre><code><span style="color:blue;">def</span> <b>updateK</b>(time):
+    K += np.sin(time) / <span style="color: #900;">2.0</span> <span style="color:darkgray"># Add a sinusoid over time</span>
+    <span style="color:blue;">return</span> K</code></pre>
+						</div>
+					</div>
+				</div>
+
+				<div class="item">
+					<div class="name def" id="values2.updateS">
+						<p>
+							def <span class="ident">updateS</span>(
+						</p>
+						<p>V)</p>
+					</div>
+					<div class="desc">
+				<p>This function is necessary for the firing rate within the neural field. 
+				The <code>V</code> parameter is the field voltage matrix.
+				You can modify the contents of this function. 
+				However, you must...</p>
+				<ol>
+					<li> keep the function declaration (<code>def <span style="color: #900;">updateS</span>(V):</code> ... and return a matrix representing the firing rate)
+					<li> have the returned matrix appear continuous when placed above and to the side of itself, 
+						 because <code><span style="color: #900;">S</span></code> has a periodic boundary condition.
+						 A sigmoidal function, such as in the example, is a good choice for the firing rate. 
+				</ol>
+				
+					</div>
+					<div class="source_cont">
+						<p class="source_link">
+							<a href="javascript:void(0);"
+								onclick="toggle('source-values2.updateS', this);">Show
+								source &equiv;</a>
+						</p>
+						<div id="source-values2.updateS" class="source">
+							<pre><code><span style="color:blue;">def</span> <b>updateS</b>(V):
+    S0    = <span style="color: #900;">2.0</span> <span style="color:darkgray"># maximum frequency</span>
+    theta = <span style="color: #900;">3.0</span> <span style="color:darkgray"># firing threshold</span>
+    alpha = <span style="color: #900;">5.5</span> <span style="color:darkgray"># steepness at the threshold</span>
+    <span style="color:blue;">return</span> S0 / (<span style="color: #900;">1.0</span> + np.exp(<span style="color: #900;">-1</span>*alpha*(V-theta)))</code></pre>
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>
